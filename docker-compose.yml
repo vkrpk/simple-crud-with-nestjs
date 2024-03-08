@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    networks:
+      - internal
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nest.rule=Host(`nest.localhost`)"
+      - "traefik.http.routers.blog.entrypoints=web"
+#      - "traefik.port=80"
+    restart: always
+  mongo:
+    restart: always
+    container_name: mymongodb
+    ports:
+      - 27017:27017
+    image: mongo:latest
+    networks:
+      - internal
+    
+networks:
+  web:
+    external: true
+  internal:
+    external: false
+
+
+  
